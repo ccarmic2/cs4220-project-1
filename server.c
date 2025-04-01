@@ -21,39 +21,38 @@ HTTPS server in C
 void initialize_openssl();
 SSL_CTX* create_ssl_context();
 void handle_client(SSL *ssl);
+void fatal(const char *msg);
 
 int main() {
-    initialize_openssl();  // Initialize OpenSSL library
+     initialize_openssl();  // Initialize OpenSSL library
     SSL_CTX *ctx = create_ssl_context();  // Create and configure SSL context
 
-    int server_fd = socket(AF_INET, SOCK_STREAM, 0); // Creates a TCP socket and checks if the socket creation was successful
-        perror("Socket creation failed");
-        exit(EXIT_FAILURE);
+    int server_fd = socket(AF_INET, SOCK_STREAM, 0);
+    if (server_fd < 0) {
+        fatal("socket creation failed");
     }
-
+    
     struct sockaddr_in addr;
+    memset(&addr, 0, sizeof(addr));
     addr.sin_family = AF_INET;
     addr.sin_port = htons(PORT);
     addr.sin_addr.s_addr = INADDR_ANY;
 
     if (bind(server_fd, (struct sockaddr*)&addr, sizeof(addr)) < 0) {
-        perror("Bind failed");
-        exit(EXIT_FAILURE);
+        fatal("bind failed");
     }
 
     if (listen(server_fd, 10) < 0) {
-        perror("Listen failed");
-        exit(EXIT_FAILURE);
+        fatal("listen failed");
     }
-
-    printf("Secure HTTP server running on port %d\n", PORT);
+    printf("secure HTTP server running on port %d\n", PORT);
 
     while (1) {
         struct sockaddr_in client_addr;
         socklen_t len = sizeof(client_addr);
         int client_fd = accept(server_fd, (struct sockaddr*)&client_addr, &len);
         if (client_fd < 0) {
-            perror("Client accept failed");
+            perror("failed");
             continue;
         }
 
@@ -82,24 +81,18 @@ void initialize_openssl() {
 }
 
 SSL_CTX* create_ssl_context() {
-    SSL_CTX *ctx = SSL_CTX_new(TLS_server_method());
+   SSL_CTX *ctx = SSL_CTX_new(TLS_server_method());
     if (!ctx) {
-        perror("Unable to create SSL context");
-        ERR_print_errors_fp(stderr);
-        exit(EXIT_FAILURE);
+        fatal("error- create SSL context");
     }
     
-    // Enforce TLS 1.2 and higher
     SSL_CTX_set_min_proto_version(ctx, TLS1_2_VERSION);
 
-    // Load certificates
     if (SSL_CTX_use_certificate_file(ctx, CERT_FILE, SSL_FILETYPE_PEM) <= 0) {
-        ERR_print_errors_fp(stderr);
-        exit(EXIT_FAILURE);
+        fatal("failed to load certificate");
     }
     if (SSL_CTX_use_PrivateKey_file(ctx, KEY_FILE, SSL_FILETYPE_PEM) <= 0) {
-        ERR_print_errors_fp(stderr);
-        exit(EXIT_FAILURE);
+        fatal("failed to load key");
     }
 
     return ctx;
@@ -110,14 +103,19 @@ void handle_client(SSL *ssl) {
     int bytes = SSL_read(ssl, buffer, sizeof(buffer) - 1);
     
     if (bytes > 0) {
-        printf("Received:\n%s\n", buffer);
+        printf("received:\n%s\n", buffer);
         
         // Send HTTP response
-        const char *response = "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n\r\nHello, Secure World!";
+        const char *response = "HTTP......";
         SSL_write(ssl, response, strlen(response));
     }
 
     SSL_shutdown(ssl);
     SSL_free(ssl);
+}
+
+void fatal(const char *msg) {
+    perror(msg);
+    exit(EXIT_FAILURE);
 }
 
