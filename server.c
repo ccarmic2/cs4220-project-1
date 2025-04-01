@@ -13,9 +13,11 @@ HTTPS server in C
 #include <openssl/ssl.h>
 #include <openssl/err.h>
 
+
 #define PORT 4433
 #define CERT_FILE "server.crt"
 #define KEY_FILE "server.key"
+#define BUF_SIZE 4096
 
 // Function prototypes
 void initialize_openssl();
