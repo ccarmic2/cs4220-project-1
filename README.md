@@ -16,7 +16,15 @@ We are creating a simple secure client and a simple secure server that accepts p
 
 ### Client - Connor Carmichael
 
-Insert info here
+ - Client can be compiled with the ssl and crypto libraries `gcc client.c -lssl -lcrypto -o client`
+ - Runs over secure tls connection on port 8443
+    - Uses client cert and key and verifies with tls handshake
+ - Sends generic GET http request 
+ - command structure:
+    - client \<server-ip\>
+    - ex. client 127.0.0.1 
+ - client certs and keys generated with the following command:
+    - `openssl req -x509 -newkey rsa:2048 -keyout client.key -out client.crt -days 365 -nodes`
 
 ### Server - Caroline Duncan
 
@@ -86,7 +94,7 @@ Listed below are all changes made to the project based on week.
 
 ## Week 1 (03/09/2025 - 03/15/2025)
 
-Connor:\
+Connor: Start work on client. Using port 80 to test.
 Caroline:\
 Christopher: Set up the README.
 
@@ -94,7 +102,7 @@ Christopher: Set up the README.
 
 ## Week 2 (03/16/2025 - 03/22/2025)
 
-Connor:\
+Connor: Finish working client and add tls support. 
 Caroline:\
 Christopher: Created a simple 'c' file that encrypts a message using HMAC & SHA256.
 
@@ -102,7 +110,7 @@ Christopher: Created a simple 'c' file that encrypts a message using HMAC & SHA2
 
 ## Week 3 (03/30/2025 - 04/05/2025)
 
-Connor:\
+Connor: Make sure that client and server communicate on same port and mtls works.
 Caroline:\
 Christopher:
 

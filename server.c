@@ -13,7 +13,7 @@ HTTPS server in C
 #include <openssl/ssl.h>
 #include <openssl/err.h>
 
-#define SERVER_PORT 80  //can be changed
+#define SERVER_PORT 8443  //can be changed
 #define CERT_FILE "server.crt"
 #define KEY_FILE "server.key"
 
@@ -99,6 +99,8 @@ SSL_CTX* create_ssl_context() {
     //set minimum supported TLS version to TLS 1.2
     SSL_CTX_set_min_proto_version(ctx, TLS1_2_VERSION);
 
+    SSL_CTX_set_verify(ctx, SSL_VERIFY_PEER | SSL_VERIFY_FAIL_IF_NO_PEER_CERT, NULL);
+
     //load server certificate
     if (SSL_CTX_use_certificate_file(ctx, CERT_FILE, SSL_FILETYPE_PEM) <= 0) {
         ERR_print_errors_fp(stderr);
@@ -107,6 +109,12 @@ SSL_CTX* create_ssl_context() {
 
     //load the private key
     if (SSL_CTX_use_PrivateKey_file(ctx, KEY_FILE, SSL_FILETYPE_PEM) <= 0) {
+        ERR_print_errors_fp(stderr);
+        exit(EXIT_FAILURE);
+    }
+
+    // Load CA cert (or client.crt if self-signed)
+    if (!SSL_CTX_load_verify_locations(ctx, "client.crt", NULL)) {
         ERR_print_errors_fp(stderr);
         exit(EXIT_FAILURE);
     }
