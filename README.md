@@ -28,7 +28,7 @@ We are creating a simple secure client and a simple secure server that accepts p
 
 ### Server - Caroline Duncan
 
-## Server Overview:
+Server Overview:
 
 - OpenSSL Initialization: initialize_openssl() sets up the OpenSSL library by loading SSL/TLS algorithms, error strings, and cryptographic algorithms.
 
