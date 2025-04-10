@@ -28,7 +28,18 @@ We are creating a simple secure client and a simple secure server that accepts p
 
 ### Server - Caroline Duncan
 
-Insert info here
+## Server Overview:
+
+- OpenSSL Initialization: initialize_openssl() sets up the OpenSSL library by loading SSL/TLS algorithms, error strings, and cryptographic algorithms.
+
+- SSL Context Creation: create_ssl_context() creates and configures an SSL context using TLS_server_method(). It sets the minimum supported TLS version to TLS 1.2, configures the context to verify client certificates, and loads the server's certificate and private key from PEM files. 
+
+- TCP Socket Setup: A TCP socket is created using the socket() system call and bound to a specified port and address.    
+
+- SSL/TLS Handshake: Once a client connects, the server initiates an SSL/TLS handshake by creating a new SSL object and associating it with the client’s file descriptor.
+
+- Client Handling: After the handshake, the server reads the client’s request and responds with a simple HTTP response.
+
 
 ### HMAC - Christopher Romo
 
