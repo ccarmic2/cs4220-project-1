@@ -12,7 +12,7 @@ We are creating a simple secure client and a simple secure server that accepts p
 
 ---
 
-## Project Features
+## 3
 
 ### Client - Connor Carmichael
 
@@ -95,7 +95,7 @@ Listed below are all changes made to the project based on week.
 ## Week 1 (03/09/2025 - 03/15/2025)
 
 Connor: Start work on client. Using port 80 to test.
-Caroline:\
+Caroline: Create plan for server/ Start implementing server
 Christopher: Set up the README.
 
 ---
@@ -103,7 +103,7 @@ Christopher: Set up the README.
 ## Week 2 (03/16/2025 - 03/22/2025)
 
 Connor: Finish working client and add tls support. 
-Caroline:\
+Caroline:Working on server
 Christopher: Created a simple 'c' file that encrypts a message using HMAC & SHA256.
 
 ---
@@ -111,7 +111,7 @@ Christopher: Created a simple 'c' file that encrypts a message using HMAC & SHA2
 ## Week 3 (03/30/2025 - 04/05/2025)
 
 Connor: Make sure that client and server communicate on same port and mtls works.
-Caroline:\
+Caroline: Finished server/ Debugging
 Christopher:
 
 ---
@@ -119,7 +119,7 @@ Christopher:
 ## Week 4 (04/06/2025 - 04/12/2025)
 
 Connor:\
-Caroline:\
+Caroline: Debugging finished
 Christopher:
 
 ---
