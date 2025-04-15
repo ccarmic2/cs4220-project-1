@@ -1,7 +1,8 @@
 /**
-@christopherRomo
-March 28th, 2025
-cromo@uccs.edu
+Christopher Romo
+3/28/25
+CS 4220 Computer Networks
+HMAC/SHA256 Test Program
 */
 
 // libraries
@@ -13,11 +14,11 @@ cromo@uccs.edu
 // constants
 #define BUFFER_SIZE 80
 
-// function declarations
-void fgetsRemoveNewLine(char* inputString);
+// function prototypes
+void fgetsRemoveNewLine(char *inputString);
 
 // function to remove newline character from fgets input, taken from CS 2060
-void fgetsRemoveNewLine(char* inputString)
+void fgetsRemoveNewLine(char *inputString)
 {
 	// read in string and get string length
 	fgets(inputString, BUFFER_SIZE, stdin);
@@ -38,8 +39,10 @@ int main(void)
 	char message[BUFFER_SIZE];
 	fgetsRemoveNewLine(message);
 
+	// secret key for HMAC
 	const char *key = "it's a secret to everybody.";
 
+	// hmac output variables
 	unsigned char output[EVP_MAX_MD_SIZE];
 	unsigned int output_len;
 
